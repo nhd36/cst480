@@ -2,9 +2,14 @@ import express, { Request, Response } from "express";
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 import * as url from "url";
+import cors from "cors";
 
 let app = express();
 app.use(express.json());
+app.use(cors<Request>());
+
+
+app.use(express.static('public'));
 
 // create database "connection"
 // use absolute path to avoid this issue
@@ -121,52 +126,52 @@ import deleteBook from "./api/books/delete/controller.js";
 import listBook from "./api/books/list/controller.js";
 import updateBook from "./api/books/put/controller.js";
 
-app.get("/authors", async (req: Request, res: Response) => {
+app.get("/api/authors", async (req: Request, res: Response) => {
     console.log("List all authors");
     return listAuthors(db, req, res);
 });
 
-app.post("/authors", async (req: Request, res: Response) => {
+app.post("/api/authors", async (req: Request, res: Response) => {
     console.log("Create new author");
     return createAuthor(db, req, res);
 });
 
-app.get("/authors/:authorId", async (req: Request, res: Response) => {
+app.get("/api/authors/:authorId", async (req: Request, res: Response) => {
     console.log("Get Author By ID");
     return getAuthor(db, req, res);
 });
 
-app.delete("/authors/:authorId", async (req: Request, res: Response) => {
+app.delete("/api/authors/:authorId", async (req: Request, res: Response) => {
     console.log("Delete Author By ID");
     return deleteAuthor(db, req, res);
 });
 
-app.put("/authors/:authorId", async (req: Request, res: Response) => {
+app.put("/api/authors/:authorId", async (req: Request, res: Response) => {
     console.log("Update Author By ID");
     return updateAuthor(db, req, res);
 });
 
-app.post("/books", async (req: Request, res: Response) => {
+app.post("/api/books", async (req: Request, res: Response) => {
     console.log("Create new book");
     return createBook(db, req, res);
 });
 
-app.get("/books/:bookId", async (req: Request, res: Response) => {
+app.get("/api/books/:bookId", async (req: Request, res: Response) => {
     console.log("Get Book By ID");
     return getBook(db, req, res);
 });
 
-app.delete("/books/:bookId", async (req: Request, res: Response) => {
+app.delete("/api/books/:bookId", async (req: Request, res: Response) => {
     console.log("Delete Book By ID");
     return deleteBook(db, req, res);
 });
 
-app.get("/books", async (req: Request, res: Response) => {
+app.get("/api/books", async (req: Request, res: Response) => {
     console.log("List all books");
     return listBook(db, req, res);
 });
 
-app.put("/books/:bookId", async (req: Request, res: Response) => {
+app.put("/api/books/:bookId", async (req: Request, res: Response) => {
     console.log("Update Book By ID");
     return updateBook(db, req, res);
 });
