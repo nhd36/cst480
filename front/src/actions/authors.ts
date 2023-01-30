@@ -2,7 +2,7 @@ import { AuthorBodyRequest } from "../common/type";
 import "axios"
 import axios, { AxiosError } from "axios";
 
-const url = "http://127.0.0.1:5000/api/authors"
+const url = "http://127.0.0.1:3000/api/authors"
 
 const listAuthors = (name: String | null, callback: any) => {
     let queryUrl = url;
