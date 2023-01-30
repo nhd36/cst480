@@ -1,6 +1,6 @@
-# Homework 1 - Nam Dao - nhd36
+# Books | Authors - Nam Dao - nhd36
 
-## Submission
+## Submission HW1
 
 #### Design
 
@@ -46,6 +46,40 @@
 
 - This is the test structure that I used in every coding project. I think it is pretty reasonable to split each API service into different testing sections.
 - For now, I am still looking over some sample to see if I can improve anything. One thing that I know that I need to improve is how I structure the test cases. Right now, the test cases of the whole projects are lying in just 1 file. However, I believe that we can split them into different files, maybe folders, for better maintaining and improving readability. I am hurting my eyes just to look over 1000 lines of code to find the part that I want to fix. 
+
+## Submission HW2
+
+#### Design
+
+1. Keep track of the changes you made to your back-end as you implemented your front-end. What changes did you need to make and why? Would you structure your back-end differently in the future?
+
+- I didn't really make any changes in Back End structure.
+- However, I still  believe that it is a mess and will need so rework in the future. Right now, I am putting the database integration with all **service** folder. However, in the future, I will separate it into a separate folder that only in charge of communicating data with the database.
+
+2. How did you structure the UI of your search inputs and forms? What choices did you make and why?
+
+- As for me, I found it pretty hard to think of the way how to design a structure for Front End components in order to reuse multiple functionalities. Personally, I did not code with React really often, so I need to take some reference from the website of how they structure components in the project.
+
+3. Did you perform client-side validation or did you rely on server-side validation alone? What are the pros/cons of making either choice?
+
+- I leave the validation to the server-side.  The client-side only in charge of passing data to the API and display the response that the APIs return.
+- I think the pros would just be more secure towards data type, I don't think there is much difference between client-side validation and server-side validation.
+
+#### React
+
+1. What was your experience manipulating state with React components (especially with the useEffect hook)? What kinds of things did you struggle with?
+
+- My biggest struggle was deploying the React with Express server. Since I am using external library called **react-router-dom**, this conflicts with how Express works as React did not generate the folder structure that Express wants in order to render the public folder. So I tried but it did not give me any green light, so I make a little alternation in rendering components by removing **react-router-dom** and render by state instead.
+
+2. What was your experience using types with the front-end? Did they catch any bugs? Did you have to make a lot of manual annotations? Did you resort to using any frequently, and if so, why?
+
+- I find it pretty annoying when for some datatype, I could not figure it out the way to parse the data into the desired datatype. I didn't catch any bugs due to Typescript neither, so I think the experience is pretty mediocre.
+- I didnt use **any** frequently. In fact, I didn't use **any**. I make a lot of manual **Type** and trying to parse data to those following types.
+
+3. Compare and contrast your experiences writing an SPA front-end with React to writing a MPA front-end like we did in CS375.
+
+- I didn't take CS375 with you so I don't really sure what you are referring to. But running SPA with Express is definitely better experience than MPA due to the way that React's build folder. The way that Express expose its static folder is by file structure, which means that index.html is always the first choice when people visit http://{domain_name}:{port}/. If you want to add path variables, you need to make sure that the folder matching with that path variables exists.
+- React only renders index.html and whole bunch of JS and CSS. There is no file structure, so Express could not work with ***react-router-dom***.
 
 ## API Endpoints
 
