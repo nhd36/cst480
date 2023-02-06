@@ -83,14 +83,3 @@ const NavBar = ({ setRender }: NavBarProps) => {
     );
 }
 export default NavBar;
-
-{/* <Button
-    key={index}
-    sx={{
-        color: 'white',
-        display: 'block'
-    }}
-    onClick=(() => { setRender(page.url) })
-        >
-        { page.name }
-                                </Button > */}

@@ -34,4 +34,33 @@ const createAuthor = async (bodyRequest: AuthorBodyRequest, callback: any) => {
     });
 }
 
-export { listAuthors, createAuthor }
+const deleteAuthor = async (id: string | null, callback: Function) => {
+    let queryUrl = `${url}/${id}`;
+
+    axios.delete(queryUrl).then(response => {
+        const {message, statusCode} = response.data;
+        callback(message, statusCode, null);
+    }).catch((error: AxiosError) => {
+        const {response} = error;
+        callback(null, null, response?.data);
+    });
+}
+
+
+const updateAuthor = async (id: String | null, bodyRequest: AuthorBodyRequest, callback: Function) => {
+    let queryUrl: string = `${url}/${id}`;
+
+    const headers = {
+        "Content-Type": "application/json"
+    }
+
+    axios.put(queryUrl, bodyRequest, { headers }).then(response => {
+        const { message, statusCode } = response.data;
+        callback(message, statusCode, null);
+    }).catch((error: AxiosError) => {
+        const { response } = error;
+        callback(null, null, response?.data);
+    });
+}
+
+export { listAuthors, createAuthor, deleteAuthor, updateAuthor}

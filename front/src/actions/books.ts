@@ -43,4 +43,32 @@ const createBook = async (bodyRequest: BookBodyRequest, callback: any) => {
     });
 }
 
-export { listBooks, createBook }
+const deleteBook = async (id: String | null, callback: Function) => {
+    let queryUrl: string = `${url}/${id}`;
+
+    axios.delete(queryUrl).then(response => {
+        const {message, statusCode} = response.data;
+        callback(message, statusCode, null);
+    }).catch((error: AxiosError) => {
+        const {response} = error;
+        callback(null, null, response?.data);
+    });
+}
+
+const updateBook = async (id: String | null, bodyRequest: BookBodyRequest, callback: Function) => {
+    let queryUrl: string = `${url}/${id}`;
+
+    const headers = {
+        "Content-Type": "application/json"
+    }
+
+    axios.put(queryUrl, bodyRequest, { headers }).then(response => {
+        const { message, statusCode } = response.data;
+        callback(message, statusCode, null);
+    }).catch((error: AxiosError) => {
+        const { response } = error;
+        callback(null, null, response?.data);
+    });
+}
+
+export { listBooks, createBook, deleteBook, updateBook}

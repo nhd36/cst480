@@ -1,12 +1,40 @@
-import { Box, TableBody, TableRow, TableCell } from "@mui/material";
+import { Box, TableBody, TableRow, TableCell, Checkbox, Button } from "@mui/material";
 import CustomTable from "../../common/CustomTable";
-import { BookType } from "../../common/type";
+import { BookType, Status } from "../../common/type";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { deleteBook } from "../../actions/books";
 
 type BookTableProps = {
-    data: Array<BookType>
+    data: Array<BookType>,
+    selectedData: BookType,
+    setSelectedData: Dispatch<SetStateAction<BookType>>
+    setStatus: Dispatch<SetStateAction<Status>>
+    setReload: Dispatch<SetStateAction<boolean>>
+    reload: boolean
 }
 
-const BookTable = ({ data }: BookTableProps) => {
+const BookTable = ({ data, selectedData, setSelectedData, setStatus, setReload, reload }: BookTableProps) => {
+
+    const clickDeleteBook = (id: string | null) => {
+        if (id === null) {
+            setStatus({
+                message: "Cannot delete ID null",
+                statusCode: 400
+            })
+        }
+        deleteBook(id, (message: String, statusCode: Number, error: any) => {
+            if (error !== null && error !== undefined) {
+                setStatus({
+                    message: error.message,
+                    statusCode: error.statusCode
+                });
+            } else {
+                setStatus({ message, statusCode });
+                setReload(!reload);
+            }
+        });
+    }
+
     return (
         <Box
             sx={{
@@ -18,7 +46,7 @@ const BookTable = ({ data }: BookTableProps) => {
             }}
         >
             <CustomTable
-                columns={["ID", "Title", "Genre", "Publish", "Author ID"]}
+                columns={["", "ID", "Title", "Genre", "Publish", "Author ID", ""]}
             >
                 <TableBody>
                     {data.map((rowData, index) => {
@@ -27,11 +55,30 @@ const BookTable = ({ data }: BookTableProps) => {
                                 key={index}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
+                                <TableCell>
+                                    <Checkbox 
+                                        checked={selectedData.id === rowData.id} 
+                                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                                            if (event.target.checked) {
+                                                setSelectedData(rowData);
+                                            }
+                                        }}
+                                    />
+                                </TableCell>
                                 <TableCell component="th" scope="row"> {rowData.id}</TableCell>
-                                <TableCell > {rowData.title} </TableCell>
+                                <TableCell> {rowData.title} </TableCell>
                                 <TableCell> {rowData.genre} </TableCell>
                                 <TableCell> {rowData.pub_year} </TableCell>
                                 <TableCell> {rowData.author_id} </TableCell>
+                                <TableCell> 
+                                    <Button
+                                        variant="contained"
+                                        color="error"
+                                        onClick={() => {clickDeleteBook(rowData.id)}}
+                                    >
+                                        Delete
+                                    </Button>
+                                </TableCell>
                             </TableRow>
                         )
 

@@ -38,7 +38,6 @@ const BookCreateForm = ({ reload, setStatus, setReload }: BookCreateFormProps) =
             author: authorId,
             pub_year: pubYear
         }
-        console.log(bodyRequest);
         createBook(bodyRequest, (message: String, statusCode: Number, error: any) => {
             if (error !== null && error !== undefined) {
                 setStatus({
@@ -111,51 +110,3 @@ const BookCreateForm = ({ reload, setStatus, setReload }: BookCreateFormProps) =
 }
 
 export default BookCreateForm;
-
-// return (
-//     <Box
-//         sx={{
-//             display: "flex",
-//             flexDirection: "column",
-//             height: "50%",
-//             justifyContent: "space-between"
-//         }}
-//         component="form"
-//         noValidate
-//         autoComplete="off">
-//         <TextField
-//             id="title"
-//             label="Title"
-//             variant="outlined"
-//             sx={{
-//                 width: "100%"
-//             }}
-//         />
-//         <TextField
-//             id="genre"
-//             label="Genre"
-//             variant="outlined"
-//             sx={{
-//                 width: "100%"
-//             }}
-//         />
-//         <TextField
-//             id="pub_year"
-//             label="Publish Year"
-//             variant="outlined"
-//             sx={{
-//                 width: "100%"
-//             }}
-//         />
-//         <TextField
-//             id="author_id"
-//             label="Book ID"
-//             variant="outlined"
-//             sx={{
-//                 width: "100%"
-//             }}
-//         />
-
-//         <Button variant="contained">Create</Button>
-//     </Box>
-// )

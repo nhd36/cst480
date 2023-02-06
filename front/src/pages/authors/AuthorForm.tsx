@@ -1,28 +1,24 @@
-import { Box, Typography, ButtonGroup, Button, Alert } from "@mui/material";
+import { Box, Typography, ButtonGroup, Button } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
 import { AuthorType, Status } from "../../common/type";
 import AuthorCreateForm from "./AuthorCreateForm";
 import AuthorSearchForm from "./AuthorSearchForm";
+import AuthorUpdateForm from "./AuthorUpdateForm";
 
 type AuthorProps = {
     reload: boolean
     setData: Dispatch<SetStateAction<Array<AuthorType>>>
     setReload: Dispatch<SetStateAction<boolean>>
+    setStatus: Dispatch<SetStateAction<Status>>
+    setSelectedData: Dispatch<SetStateAction<AuthorType>>
+    selectedData: AuthorType
 }
 
-const AuthorForm = ({ reload, setData, setReload }: AuthorProps) => {
-    const [createForm, setCreateForm] = useState(true);
-    const [status, setStatus] = useState<Status>({
-        statusCode: null,
-        message: null
-    });
+const AuthorForm = ({ reload, setData, setReload, setStatus, selectedData, setSelectedData }: AuthorProps) => {
+    const [form, setForm] = useState<Number>(1);
     const activeBtnColor = "warning";
     const inActiveBtnColor = "primary";
 
-
-    const setActiveBtn = (value: boolean) => {
-        setCreateForm(value);
-    }
 
     return (
         <Box
@@ -47,21 +43,27 @@ const AuthorForm = ({ reload, setData, setReload }: AuthorProps) => {
                 }}
             >
                 <Button
-                    color={!createForm ? activeBtnColor : inActiveBtnColor}
-                    onClick={() => { setActiveBtn(false) }}
+                    color={form === 1 ? activeBtnColor : inActiveBtnColor}
+                    onClick={() => { setForm(1) }}
+                >
+                    Create
+                </Button>
+                <Button
+                    color={form === 2 ? activeBtnColor : inActiveBtnColor}
+                    onClick={() => { setForm(2) }}
                 >
                     Search
                 </Button>
                 <Button
-                    color={createForm ? activeBtnColor : inActiveBtnColor}
-                    onClick={() => { setActiveBtn(true) }}
+                    color={form === 3 ? activeBtnColor : inActiveBtnColor}
+                    onClick={() => { setForm(3) }}
                 >
-                    Create
+                    Update
                 </Button>
             </ButtonGroup>
-            {createForm && <AuthorCreateForm reload={reload} setReload={setReload} setStatus={setStatus} />}
-            {!createForm && <AuthorSearchForm setData={setData} setStatus={setStatus} />}
-            {status.statusCode !== null && <Alert sx={{ alignItems: "center" }} severity={status.statusCode === 200 ? "success" : "error"}>{status.message}</Alert>}
+            {form === 1 && <AuthorCreateForm reload={reload} setReload={setReload} setStatus={setStatus} />}
+            {form === 2 && <AuthorSearchForm setData={setData} setStatus={setStatus} />}
+            {form === 3 && <AuthorUpdateForm setStatus={setStatus} selectedData={selectedData} setReload={setReload} reload={reload} />}
         </Box>
     );
 }

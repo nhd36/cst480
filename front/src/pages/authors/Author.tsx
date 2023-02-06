@@ -1,15 +1,22 @@
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { listAuthors } from "../../actions/authors";
-import Layout from "../../common/Layout";
-import { AuthorType } from "../../common/type";
+import { AuthorType, Status } from "../../common/type";
 import AuthorForm from "./AuthorForm";
 import AuthorTable from "./AuthorTable";
 
+type AuthorProps = {
+    setStatus: Dispatch<SetStateAction<Status>>
+}
 
-const Author = () => {
+const Author = ({setStatus}: AuthorProps) => {
     const [authors, setAuthors] = useState<Array<AuthorType>>([]);
     const [reload, setReload] = useState<boolean>(true);
+    const [selected, setSelected] = useState<AuthorType>({
+        id: null,
+        bio: null,
+        name: null
+    });
     useEffect(() => {
         listAuthors(null, (data: Array<AuthorType>, message: String, statusCode: Number) => {
             setAuthors(data);
@@ -30,7 +37,14 @@ const Author = () => {
                 width: "100%",
                 height: "100vh"
             }}>
-                <AuthorForm reload={reload} setData={setAuthors} setReload={setReload} />
+                <AuthorForm 
+                    reload={reload} 
+                    setData={setAuthors} 
+                    setReload={setReload} 
+                    selectedData={selected}
+                    setSelectedData={setSelected}
+                    setStatus={setStatus}
+                />
             </Box>
 
 
@@ -40,7 +54,14 @@ const Author = () => {
                 width: "100%",
                 height: "100vh"
             }}>
-                <AuthorTable data={authors} />
+                <AuthorTable 
+                    data={authors} 
+                    selectedData={selected}
+                    setSelectedData={setSelected}
+                    setStatus={setStatus}
+                    setReload={setReload}
+                    reload={reload}
+                />
             </Box>
 
         </Box>
