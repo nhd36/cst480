@@ -81,6 +81,34 @@
 - I didn't take CS375 with you so I don't really sure what you are referring to. But running SPA with Express is definitely better experience than MPA due to the way that React's build folder. The way that Express expose its static folder is by file structure, which means that index.html is always the first choice when people visit http://{domain_name}:{port}/. If you want to add path variables, you need to make sure that the folder matching with that path variables exists.
 - React only renders index.html and whole bunch of JS and CSS. There is no file structure, so Express could not work with ***react-router-dom***.
 
+## Submission HW3
+
+#### UI
+
+1. How did you integrate the book editing and deletion into your UI? Why did you choose the design you did?
+
+- For PUT, I just set another form that required user to choose 1 row data on the table and edit that data. If the user does not choose any row data in the table, I disabled all the button.
+- For DELETE, I add 1 more column in each row of data a button. Each button is associated with its data ID that will call the API with axios if clicked and result in deleting that specific data point.
+- I noticed that the PUT endpoint is pretty similar to CREATE, so I decided to implement it that way. For DELETE, I think each row of data can directly have a button next for it so  the user is easier to follow and it also have a better navigation around the page, without causing too complicated UI.
+
+2. How difficult was book editing/deletion to implement?
+
+- It was not really hard to implement. But since I suck at splitting up the components and managing state flows through the DOM tree, I have to make some changes for the states to be passed properly down from the root tree, so it causes a mess at the first time and need to clarify a lot.
+
+#### Material UI
+
+1. How easy was it to refactor your existing UI to use Material UI? What pitfalls did you run into trying to use it?
+
+- I was using Material UI on the original, but I don't have any comment for this question. However, I know one thing is that Material UI gives me a speedy development. All the component that we try to customize with raw HTML and CSS has already been available in Material UI libraries. We just need to call the API and make a few changes from the MUI components to have a full completed version of UI. Moreover, it is very reusable and we can use anywhere that we want.
+
+#### Material UI
+
+1. How difficult was it to add the PUT endpoint and associated tests? Did your experience writing the POST endpoints make writing the PUT endpoints smoother?
+
+- I wrote test for PUT when I was working on HW1 so I don't think that it was hard to add PUT endpoint and its associated tests. Typically, it is just POST endpoint with the ability to check the existence and its other associated data to make sure that the newly added data satisfies the integrity of the database. 
+- Yeah, I copy/paste POST endpoints and add more features to make PUT endpoints.
+
+
 ## API Endpoints
 
 #### Books API
