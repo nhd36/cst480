@@ -21,8 +21,12 @@ const Book = ({setStatus}: BookProps) => {
     });
 
     useEffect(() => {
-        listBooks(null, null, null, (data: Array<BookType>, message: String, statusCode: Number) => {
-            setBooks(data);
+        listBooks(null, null, null, (data: Array<BookType>, message: String, statusCode: Number, error: null) => {
+            if (error !== null) {
+                console.log(error);
+            } else {
+                setBooks(data);
+            }
         });
         setSelected({
             title: null,

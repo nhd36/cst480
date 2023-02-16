@@ -2,7 +2,7 @@ import { Database } from "sqlite";
 import { Request, Response } from "express";
 import { CustomResponse, RequestParser } from "../../common.js";
 import { Body } from "./type.js";
-import { verifyNonNull } from "../../utility.js";
+import { verifyNonNull } from "../../../utility.js";
 import service from "./service.js";
 
 const controller = async (db: Database, req: Request, res: Response<CustomResponse>) => {

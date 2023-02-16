@@ -16,9 +16,13 @@ const AuthorSearchForm = ({ setStatus, setData }: AuthorSearchFormProps) => {
     }
 
     const searchClick = () => {
-        listAuthors(name, (data: Array<AuthorType>, message: String, statusCode: Number) => {
-            setData(data);
-            setStatus({ message, statusCode });
+        listAuthors(name, (data: Array<AuthorType>, message: String, statusCode: Number, error: any) => {
+            if (error !== null) {
+                console.log(error);
+            } else {
+                setData(data);
+                setStatus({ message, statusCode });
+            }
         });
     }
 

@@ -34,5 +34,14 @@ interface BookBodyRequest extends BodyRequest {
     author: String | null
 }
 
+interface LoginBodyRequest extends BodyRequest {
+    username: String | null,
+    password: String | null
+}
 
-export type { AuthorType, BookType, Status, BookBodyRequest, AuthorBodyRequest }
+interface RegisterBodyRequest extends BodyRequest {
+    username: String | null,
+    password: String | null
+}
+
+export type { AuthorType, BookType, Status, BookBodyRequest, AuthorBodyRequest, LoginBodyRequest, RegisterBodyRequest }

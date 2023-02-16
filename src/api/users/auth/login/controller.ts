@@ -1,20 +1,18 @@
 import { Database } from "sqlite";
 import { Request, Response } from "express";
-import { CustomResponse, RequestParser } from "../../common.js";
+import { CustomResponse, RequestParser } from "../../../common.js";
 import { Body } from "./type.js";
-import { verifyNonNull } from "../../../utility.js";
+import { verifyNonNull } from "../../../../utility.js";
 import service from "./service.js";
 
 const controller = async (db: Database, req: Request, res: Response<CustomResponse>) => {
     // Parsing body message
     const body: Body = {
-        title: <string>req.body?.title,
-        genre: <string>req.body?.genre,
-        pubYear: <Number>Number.parseInt(req.body?.pub_year) || null,
-        author: <string>req.body?.author
+        username: <string>req.body?.username,
+        password: <string>req.body?.password
     }
 
-    if (!verifyNonNull(["title", "genre", "pubYear", "author"], body)) {
+    if (!verifyNonNull(["username", "password"], body)) {
         let response: CustomResponse = {
             message: "one of the field is null",
             data: null,

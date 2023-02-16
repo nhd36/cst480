@@ -18,9 +18,13 @@ const Author = ({setStatus}: AuthorProps) => {
         name: null
     });
     useEffect(() => {
-        listAuthors(null, (data: Array<AuthorType>, message: String, statusCode: Number) => {
-            setAuthors(data);
-            console.log(data);
+        listAuthors(null, (data: Array<AuthorType>, message: String, statusCode: Number, error: any) => {
+            if (error !== null) {
+                console.log(error);
+            } else {
+                setAuthors(data);
+                console.log(data);
+            }
         });
     }, [reload]);
     return (

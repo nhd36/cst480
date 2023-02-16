@@ -4,5 +4,4 @@ interface Body {
     genre: string | null
     author: string | null
 }
-
-export { Body }
+export {Body}

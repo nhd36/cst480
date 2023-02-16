@@ -6,9 +6,10 @@ import NavBar from "./NavBar";
 type LayoutProps = {
     children: ReactNode
     setRender: Dispatch<SetStateAction<String>>
+    username: String | null
 }
 
-const Layout = ({ children, setRender }: LayoutProps) => {
+const Layout = ({ children, setRender, username }: LayoutProps) => {
     return (
         <Box
             sx={{
@@ -19,7 +20,8 @@ const Layout = ({ children, setRender }: LayoutProps) => {
                 height: "100%"
             }}
         >
-            <NavBar setRender={setRender} />
+            <NavBar username={username} setRender={setRender} />
+            <br/>
             {children}
         </Box>
     )

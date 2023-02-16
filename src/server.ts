@@ -1,12 +1,15 @@
-import express, { Request, Response } from "express";
+import express, { Request, RequestHandler, Response } from "express";
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 import * as url from "url";
 import cors from "cors";
+import { parseToken } from "./utility.js";
+import cookieParser from "cookie-parser";
 
 let app = express();
 app.use(express.json());
 app.use(cors<Request>());
+app.use(cookieParser())
 
 
 app.use(express.static('public'));
@@ -83,7 +86,7 @@ const sample = async () => {
         }
         return res.json({ message: `You sent: ${req.body.bar} in the body` });
     });
-    app.delete("/foo", (req, res) => {
+    app.delete("/foo", (_req, res) => {
         // etc.
         res.sendStatus(200);
     });
@@ -96,7 +99,7 @@ const sample = async () => {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
     // need async keyword on request handler to use await inside it
-    app.get("/bar", async (req, res: FooResponse) => {
+    app.get("/bar", async (_req, res: FooResponse) => {
         console.log("Waiting...");
         // await is equivalent to calling sleep.then(() => { ... })
         // and putting all the code after this in that func body ^
@@ -110,10 +113,10 @@ const sample = async () => {
     // curl http://localhost:3000/bar
 }
 
-await sample();
+// await sample();
 
 // -------------------------- APIs -------------------------------
-// import { listBooks, getBookById } from "./api/books/controller.js";
+// import { listBooks, getBookById } from "./controller.js";
 import listAuthors from "./api/authors/list/controller.js";
 import createAuthor from "./api/authors/post/controller.js";
 import getAuthor from "./api/authors/get/controller.js";
@@ -126,56 +129,123 @@ import deleteBook from "./api/books/delete/controller.js";
 import listBook from "./api/books/list/controller.js";
 import updateBook from "./api/books/put/controller.js";
 
-app.get("/api/authors", async (req: Request, res: Response) => {
+import loginUser from "./api/users/auth/login/controller.js";
+import registerUser from "./api/users/auth/register/controller.js";
+
+const authorRouter = express.Router();
+
+let authorize: RequestHandler = (req: Request, res: Response, next) => {
+    if (req.cookies === undefined) {
+        return res.status(401).json({
+            statusCode: 401,
+            message: "missing credentials",
+            data: null
+        });
+    }
+    // TODO only allow access if user logged in
+    // by sending error response if they're not
+    const { authToken } = req.cookies;
+    if (authToken === undefined) {
+        return res.status(401).json({
+            statusCode: 401,
+            message: "unauthorized",
+            data: null
+        });
+    }
+    
+    const username = parseToken(authToken);
+    if (username === null) {
+        return res.status(401).json({
+            statusCode: 401,
+            message: "invalid crendentials",
+            error: null
+        });
+    }
+    res.locals.username = username;
+    next();
+};
+
+// const test = (_req: Request, _res: Response, next: any) => {
+//     console.log("Hello World")
+//     next();
+// };
+
+authorRouter.get("", authorize, async (req: Request, res: Response) => {
     console.log("List all authors");
     return listAuthors(db, req, res);
 });
 
-app.post("/api/authors", async (req: Request, res: Response) => {
+authorRouter.post("", authorize, async (req: Request, res: Response) => {
     console.log("Create new author");
     return createAuthor(db, req, res);
 });
 
-app.get("/api/authors/:authorId", async (req: Request, res: Response) => {
+authorRouter.get("/:authorId", authorize, async (req: Request, res: Response) => {
     console.log("Get Author By ID");
     return getAuthor(db, req, res);
 });
 
-app.delete("/api/authors/:authorId", async (req: Request, res: Response) => {
+authorRouter.delete("/:authorId", authorize, async (req: Request, res: Response) => {
     console.log("Delete Author By ID");
     return deleteAuthor(db, req, res);
 });
 
-app.put("/api/authors/:authorId", async (req: Request, res: Response) => {
+authorRouter.put("/:authorId", authorize, async (req: Request, res: Response) => {
     console.log("Update Author By ID");
     return updateAuthor(db, req, res);
 });
 
-app.post("/api/books", async (req: Request, res: Response) => {
+const bookRouter = express.Router();
+
+bookRouter.post("", authorize, async (req: Request, res: Response) => {
     console.log("Create new book");
     return createBook(db, req, res);
 });
 
-app.get("/api/books/:bookId", async (req: Request, res: Response) => {
+bookRouter.get("/:bookId", authorize, async (req: Request, res: Response) => {
     console.log("Get Book By ID");
     return getBook(db, req, res);
 });
 
-app.delete("/api/books/:bookId", async (req: Request, res: Response) => {
+bookRouter.delete("/:bookId", authorize, async (req: Request, res: Response) => {
     console.log("Delete Book By ID");
     return deleteBook(db, req, res);
 });
 
-app.get("/api/books", async (req: Request, res: Response) => {
+bookRouter.get("", authorize, async (req: Request, res: Response) => {
     console.log("List all books");
     return listBook(db, req, res);
 });
 
-app.put("/api/books/:bookId", async (req: Request, res: Response) => {
+bookRouter.put("/:bookId", authorize, async (req: Request, res: Response) => {
     console.log("Update Book By ID");
     return updateBook(db, req, res);
 });
 
+const authRouter = express.Router();
+
+authRouter.post("/login", async (req:  Request, res: Response) => {
+    console.log("User Login");
+    return loginUser(db, req, res);
+});
+
+authRouter.post("/register", async (req: Request, res: Response) => {
+    console.log("User Register");
+    return registerUser(db, req, res);
+});
+
+authRouter.get("/authorize", authorize, async(req: Request, res: Response) => {
+    console.log("User Authorized")
+    return res.status(200).json({
+        message: "success",
+        statusCode: 200,
+        data: res.locals.username
+    });
+});
+
+app.use("/api/user", authRouter);
+app.use("/api/books", bookRouter);
+app.use("/api/authors", authorRouter);
 // ---------------------------------------------------------------
 
 // run server

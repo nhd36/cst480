@@ -3,8 +3,10 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Dispatch, SetStateAction } from 'react';
-import { Button } from '@mui/material';
+import { Dispatch, SetStateAction, useState, MouseEvent } from 'react';
+import { Button, IconButton, Menu, MenuItem } from '@mui/material';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Cookies from 'js-cookie';
 
 const pages = [
     {
@@ -19,9 +21,25 @@ const pages = [
 
 type NavBarProps = {
     setRender: Dispatch<SetStateAction<String>>
+    username: String | null
 }
 
-const NavBar = ({ setRender }: NavBarProps) => {
+const NavBar = ({ setRender, username }: NavBarProps) => {
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  
+    const handleMenu = (event: MouseEvent<HTMLElement>) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
+    const logOutButton = () => {
+        setAnchorEl(null);
+      Cookies.remove("authToken");
+      setRender("authentication");
+    }
 
     return (
         <AppBar position="static">
@@ -53,28 +71,59 @@ const NavBar = ({ setRender }: NavBarProps) => {
                         >
                             Books|Authors
                         </Typography>
-                        <Box sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            width: "15%",
+                        {username !== null && (
+                            <Box sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                width: "25%",
 
-                        }}
-                        >
-                            {pages.map((page, index) => {
-                                return (
-                                    <Button
-                                        key={index}
-                                        sx={{
-                                            color: "white",
-                                            display: "block"
-                                        }}
-                                        onClick={() => { setRender(page.url) }}
-                                    >
-                                        {page.name}
-                                    </Button>
-                                )
-                            })}
-                        </Box>
+                            }}
+                            >
+                                {pages.map((page, index) => {
+                                    return (
+                                        <Button
+                                            key={index}
+                                            sx={{
+                                                color: "white",
+                                                display: "block"
+                                            }}
+                                            onClick={() => { setRender(page.url) }}
+                                        >
+                                            {page.name}
+                                        </Button>
+                                    )
+                                })}
+                                <IconButton
+                                    size="large"
+                                    aria-label="account of current user"
+                                    aria-controls="menu-appbar"
+                                    aria-haspopup="true"
+                                    color="inherit"
+                                    onClick={handleMenu}
+                                >
+                                    <AccountCircle />
+                                </IconButton>
+                                <Menu
+                                    id="menu-appbar"
+                                    anchorEl={anchorEl}
+                                    anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleClose}
+                                >
+                                    <MenuItem>Hello {username}</MenuItem>
+                                    <MenuItem onClick={logOutButton}>Log Out</MenuItem>
+                                </Menu>
+                            </Box>
+                            ) 
+                        }
                     </Box>
 
                 </Toolbar>

@@ -14,3 +14,8 @@ CREATE TABLE authors (
     name TEXT, -- author name
     bio TEXT   -- short author biography
 );
+
+CREATE TABLE users (
+    username VARCHAR(255) PRIMARY KEY,
+    password VARCHAR(255)
+)

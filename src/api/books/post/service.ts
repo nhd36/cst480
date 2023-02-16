@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { Database } from "sqlite";
 import { CustomResponse, RequestParser, Book, Author } from "../../common.js";
-import { createUniqueId } from "../../utility.js";
+import { createUniqueId } from "../../../utility.js";
 
 const service = async (db: Database, reqParaser: RequestParser, res: Response<CustomResponse>) => {
     let response: CustomResponse = {

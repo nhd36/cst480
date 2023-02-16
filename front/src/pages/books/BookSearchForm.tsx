@@ -27,9 +27,13 @@ const BookSearchForm = ({ setStatus, setData }: BookSearchFormProps) => {
 
     const searchClick = () => {
         console.log(title, from, to);
-        listBooks(title, from, to, (data: Array<BookType>, message: String, statusCode: Number) => {
-            setData(data);
-            setStatus({ message, statusCode });
+        listBooks(title, from, to, (data: Array<BookType>, message: String, statusCode: Number, error: any) => {
+            if (error !== null) {
+                console.log(error);
+            } else {
+                setData(data);
+                setStatus({ message, statusCode });
+            }
         });
     }
 
