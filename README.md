@@ -109,6 +109,26 @@
 - Yeah, I copy/paste POST endpoints and add more features to make PUT endpoints.
 
 
+## Submission HW4
+
+#### UI
+
+1. How did you integrate authorization into your UI? How did you prevent or warn users when they weren’t authorized to perform an action?
+
+- I implement authorization by adding another authorize middleware into each API, so if they don't have the required Cookies and contains the right type of token, Backend API will throws 401 status code with unauthorized message.
+- For Frontend, I only rendered components once the user successfully authorized with Authorization API. If the user fails to authorize, only sign in / sign up component will be rendered.
+
+2. What did you struggle with when adding logins and authorization to your front-end?
+
+- I didn't really have any trouble trying to implement the authorization. The hardest thing I tried to figure it out is how to add authorize middleware into each router.
+
+#### Login endpoint
+
+1. What did you struggle with when adding logins and authorization to your back-end?
+
+- Same as above, I did not have a lot of difficulties with this homework.
+
+
 ## API Endpoints
 
 #### Books API
