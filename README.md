@@ -131,17 +131,30 @@
 
 ## Submission HW5
 
-#### UI
+#### Reflection
 
-1. How did you integrate the book editing and deletion into your UI? Why did you choose the design you did?
+1. If your app was vulnerable to XSS attacks, explain what you did to mitigate them. If it wasn’t, explain why.
 
-- For PUT, I just set another form that required user to choose 1 row data on the table and edit that data. If the user does not choose any row data in the table, I disabled all the button.
-- For DELETE, I add 1 more column in each row of data a button. Each button is associated with its data ID that will call the API with axios if clicked and result in deleting that specific data point.
-- I noticed that the PUT endpoint is pretty similar to CREATE, so I decided to implement it that way. For DELETE, I think each row of data can directly have a button next for it so  the user is easier to follow and it also have a better navigation around the page, without causing too complicated UI.
+- My website is not vulnerable to XSS attacks. I believe that this is because of Typescript, which already declare the input of all the box to be either <string | null>. With that being said, even if the attackers plan to attack with XSS, all the application can see is just string/text.
 
-2. How difficult was book editing/deletion to implement?
+2. If your app was vulnerable to CSRF attacks, explain what you did to mitigate them. If it wasn’t, explain why.
 
-- It was not really hard to implement. But since I suck at splitting up the components and managing state flows through the DOM tree, I have to make some changes for the states to be passed properly down from the root tree, so it causes a mess at the first time and need to clarify a lot.
+- As much as I can think of the way to avoid to CSRF, there is probably no way that we can totally prevent it. The best thing that we can do is to make our website as eligible as possible, putting a warning to warn user about using the correct endpoint for our services. Hosting website nowadays is super easy, so anyone can clone our website and make their domain almost identical to ours (I knows some of the sites in my country that are trying to scam users by clone the real website and set the domain name to almost identical to the real one: faceebook.com, netflixx.com, gooogle.com, ...)
+
+3. If you added rate limiting with a firewall, include what commands you ran/packages you used. If you added rate limiting to your application code, indicate this.
+
+- Haven't done this one yet.
+
+4. Explain what HTTP headers you set, what they do, and why they’re useful.
+
+- I use everything (basically app.use(helmet()) since I am lazy). But if I have to pick the headers, I will use the following headers:
+* Cross-Origin-Opener-Policy: same-origin - restricting cross-origin interactions between documents, scripts, or media files from one origin to a web page with a different origin.
+* Cross-Origin-Resource-Policy: same-origin - restricting cross-origin interactions between documents, scripts, or media files from one origin to a web page with a different origin.
+* Content-Security-Policy - preventing XSS
+
+5. If you did anything else to secure your app, explain what you did and why.
+
+- Other than that, I didn't do further configuration with my site.
 
 #### Material UI
 
