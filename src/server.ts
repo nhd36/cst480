@@ -5,12 +5,13 @@ import * as url from "url";
 import cors from "cors";
 import { parseToken } from "./utility.js";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
 
 let app = express();
 app.use(express.json());
 app.use(cors<Request>());
-app.use(cookieParser())
-
+app.use(cookieParser());
+app.use(helmet());
 
 app.use(express.static('public'));
 

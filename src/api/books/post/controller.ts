@@ -11,7 +11,8 @@ const controller = async (db: Database, req: Request, res: Response<CustomRespon
         title: <string>req.body?.title,
         genre: <string>req.body?.genre,
         pubYear: <Number>Number.parseInt(req.body?.pub_year) || null,
-        author: <string>req.body?.author
+        author: <string>req.body?.author,
+        username: res.locals.username
     }
 
     if (!verifyNonNull(["title", "genre", "pubYear", "author"], body)) {

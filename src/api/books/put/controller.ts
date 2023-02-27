@@ -14,7 +14,8 @@ const controller = async (db: Database, req: Request, res: Response) => {
         title: <string>req.body.title || null,
         genre: <string>req.body.genre || null,
         author_id: <string>req.body.author || null,
-        pub_year: Number.parseInt(<string>req.body.pub_year) || null
+        pub_year: Number.parseInt(<string>req.body.pub_year) || null,
+        username: res.locals.username
     }
 
     const reqParser: RequestParser = {
@@ -24,8 +25,6 @@ const controller = async (db: Database, req: Request, res: Response) => {
         QueryParam: null,
         ExtraData: null
     }
-
-    console.log(body);
 
     return service(db, reqParser, res);
 }

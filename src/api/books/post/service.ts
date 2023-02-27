@@ -11,9 +11,9 @@ const service = async (db: Database, reqParaser: RequestParser, res: Response<Cu
     }
 
     // Check if author exists
-    let records = await db.all(`SELECT * FROM authors WHERE id = '${reqParaser.Body.author}'`)
+    let record = await db.get(`SELECT * FROM authors WHERE id = '${reqParaser.Body.author}';`)
 
-    if (records.length === 0) {
+    if (record === null || record === undefined) {
         response.message = "author not exists";
         response.statusCode = 404;
         return res.status(404).json(response);
@@ -23,8 +23,8 @@ const service = async (db: Database, reqParaser: RequestParser, res: Response<Cu
     const id: string = createUniqueId();
 
     // Parsing body into SQL statement
-    let statement = await db.prepare("INSERT INTO books(id, author_id, title, pub_year, genre) VALUES (?, ?, ?, ?, ?)");
-    await statement.bind([id, reqParaser.Body.author, reqParaser.Body.title, reqParaser.Body.pubYear, reqParaser.Body.genre]);
+    let statement = await db.prepare("INSERT INTO books(id, author_id, title, pub_year, genre, username) VALUES (?, ?, ?, ?, ?, ?);");
+    await statement.bind([id, reqParaser.Body.author, reqParaser.Body.title, reqParaser.Body.pubYear, reqParaser.Body.genre, reqParaser.Body.username]);
     await statement.run();
     await statement.finalize();
 
@@ -33,7 +33,8 @@ const service = async (db: Database, reqParaser: RequestParser, res: Response<Cu
         title: reqParaser.Body.title,
         pubYear: reqParaser.Body.pubYear,
         genre: reqParaser.Body.genre,
-        author: reqParaser.Body.author
+        author: reqParaser.Body.author,
+        username: reqParaser.Body.username
     }
 
     response = {

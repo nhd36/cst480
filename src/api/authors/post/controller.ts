@@ -9,7 +9,8 @@ const controller = async (db: Database, req: Request, res: Response<CustomRespon
     // Parsing body message
     const body: Body = {
         name: <string>req.body?.name || null,
-        bio: <string>req.body?.bio || null
+        bio: <string>req.body?.bio || null,
+        username: res.locals.username
     }
 
     if (!verifyNonNull(["name", "bio"], body)) {

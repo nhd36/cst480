@@ -12,7 +12,8 @@ const controller = async (db: Database, req: Request, res: Response) => {
 
     const body: Body = {
         name: <string>req.body.name || null,
-        bio: <string>req.body.bio || null
+        bio: <string>req.body.bio || null,
+        username: res.locals.username
     }
 
     const reqParser: RequestParser = {

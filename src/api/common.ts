@@ -1,7 +1,8 @@
 interface Author {
     id: string,
     name: string,
-    bio: string
+    bio: string,
+    username: string
 }
 
 interface Book {
@@ -9,7 +10,8 @@ interface Book {
     title: string,
     pubYear: Number,
     genre: string,
-    author: string
+    author: string,
+    username: string
 }
 
 interface CustomResponse {

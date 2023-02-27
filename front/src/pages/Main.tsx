@@ -42,8 +42,8 @@ const Main = () => {
     return (
         <Layout username={username} setRender={setRender}>
             {render === "authentication" && <Authentication setRender={setRender} setStatus={setStatus} />}
-            {render === "authors" && <Author setStatus={setStatus}/>}
-            {render === "books" && <Book setStatus={setStatus}/>}
+            {render === "authors" && <Author setStatus={setStatus} username={username}/>}
+            {render === "books" && <Book setStatus={setStatus} username={username}/>}
             <StatusModal status={status} setStatus={setStatus}/>
         </Layout>
     )

@@ -3,5 +3,6 @@ interface Body {
     pubYear: Number | null
     genre: string | null
     author: string | null
+    username: string
 }
 export {Body}

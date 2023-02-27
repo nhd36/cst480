@@ -26,7 +26,8 @@ const service = async (db: Database, reqParser: RequestParser, res: Response<Cus
             title: row.title,
             pubYear: row.pub_year,
             genre: row.genre,
-            author: row.author_id
+            author: row.author_id,
+            username: row.username
         }
         response = {
             message: "success",

@@ -10,10 +10,11 @@ type BookTableProps = {
     setSelectedData: Dispatch<SetStateAction<BookType>>
     setStatus: Dispatch<SetStateAction<Status>>
     setReload: Dispatch<SetStateAction<boolean>>
-    reload: boolean
+    reload: boolean,
+    username: String | null
 }
 
-const BookTable = ({ data, selectedData, setSelectedData, setStatus, setReload, reload }: BookTableProps) => {
+const BookTable = ({ data, selectedData, setSelectedData, setStatus, setReload, reload, username }: BookTableProps) => {
 
     const clickDeleteBook = (id: string | null) => {
         if (id === null) {
@@ -46,7 +47,7 @@ const BookTable = ({ data, selectedData, setSelectedData, setStatus, setReload, 
             }}
         >
             <CustomTable
-                columns={["", "ID", "Title", "Genre", "Publish", "Author ID", ""]}
+                columns={["", "ID", "Title", "Genre", "Publish", "Author ID", "Created By", ""]}
             >
                 <TableBody>
                     {data.map((rowData, index) => {
@@ -70,14 +71,15 @@ const BookTable = ({ data, selectedData, setSelectedData, setStatus, setReload, 
                                 <TableCell> {rowData.genre} </TableCell>
                                 <TableCell> {rowData.pub_year} </TableCell>
                                 <TableCell> {rowData.author_id} </TableCell>
+                                <TableCell> {rowData.username} </TableCell>
                                 <TableCell> 
-                                    <Button
+                                    {username === rowData.username && <Button
                                         variant="contained"
                                         color="error"
                                         onClick={() => {clickDeleteBook(rowData.id)}}
                                     >
                                         Delete
-                                    </Button>
+                                    </Button>}
                                 </TableCell>
                             </TableRow>
                         )

@@ -2,6 +2,7 @@ type AuthorType = {
     id: string | null
     name: string | null
     bio: string | null
+    username: string | null
 }
 
 type BookType = {
@@ -10,6 +11,7 @@ type BookType = {
     genre: string | null
     pub_year: string | null
     author_id: string | null
+    username: String | null
 }
 
 

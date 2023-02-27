@@ -7,15 +7,17 @@ import AuthorTable from "./AuthorTable";
 
 type AuthorProps = {
     setStatus: Dispatch<SetStateAction<Status>>
+    username: String | null
 }
 
-const Author = ({setStatus}: AuthorProps) => {
+const Author = ({setStatus, username}: AuthorProps) => {
     const [authors, setAuthors] = useState<Array<AuthorType>>([]);
     const [reload, setReload] = useState<boolean>(true);
     const [selected, setSelected] = useState<AuthorType>({
         id: null,
         bio: null,
-        name: null
+        name: null,
+        username: null
     });
     useEffect(() => {
         listAuthors(null, (data: Array<AuthorType>, message: String, statusCode: Number, error: any) => {
@@ -65,6 +67,7 @@ const Author = ({setStatus}: AuthorProps) => {
                     setStatus={setStatus}
                     setReload={setReload}
                     reload={reload}
+                    username={username}
                 />
             </Box>
 

@@ -2,4 +2,8 @@ interface PathParam {
     authorId: string
 }
 
-export { PathParam }
+interface Body {
+    username: string
+}
+
+export { PathParam, Body }

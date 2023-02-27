@@ -11,9 +11,10 @@ type AuthorTableProps = {
     setReload: Dispatch<SetStateAction<boolean>>
     setStatus: Dispatch<SetStateAction<Status>>
     reload: boolean
+    username: String | null
 }
 
-const AuthorTable = ({ data, selectedData, setSelectedData, setStatus, setReload, reload }: AuthorTableProps) => {
+const AuthorTable = ({ data, selectedData, setSelectedData, setStatus, setReload, reload, username }: AuthorTableProps) => {
     const clickDeleteAuthor = (id: string | null) => {
         if (id === null) {
             setStatus({
@@ -44,7 +45,7 @@ const AuthorTable = ({ data, selectedData, setSelectedData, setStatus, setReload
             }}
         >
             <CustomTable
-                columns={["", "ID", "Name", "Bio", ""]}
+                columns={["", "ID", "Name", "Bio", "Created By", ""]}
             >
                 <TableBody>
                     {data.map((rowData, index) => {
@@ -64,26 +65,17 @@ const AuthorTable = ({ data, selectedData, setSelectedData, setStatus, setReload
                                     />
                                 </TableCell>
                                 <TableCell component="th" scope="row"> {rowData.id}</TableCell>
-                                <TableCell sx={{
-                                    wordBreak: "break-all"
-                                }}
-                                >
-                                    {rowData.name}
-                                </TableCell>
-                                <TableCell sx={{
-                                    wordBreak: "break-all"
-                                }}>
-                                    {rowData.bio}
-
-                                </TableCell>
+                                <TableCell sx={{wordBreak: "break-all"}}>{rowData.name}</TableCell>
+                                <TableCell sx={{wordBreak: "break-all"}}> {rowData.bio} </TableCell>
+                                <TableCell sx={{wordBreak: "break-all"}}> {rowData.username} </TableCell>
                                 <TableCell> 
-                                    <Button
+                                    {username === rowData.username && <Button
                                         variant="contained"
                                         color="error"
                                         onClick={() => {clickDeleteAuthor(rowData.id)}}
                                     >
                                         Delete
-                                    </Button>
+                                    </Button>}
                                 </TableCell>
                             </TableRow>
                         )

@@ -7,9 +7,10 @@ import BookTable from "./BookTable";
 
 type BookProps = {
     setStatus: Dispatch<SetStateAction<Status>>
+    username: String | null
 }
 
-const Book = ({setStatus}: BookProps) => {
+const Book = ({setStatus, username}: BookProps) => {
     const [authors, setBooks] = useState<Array<BookType>>([]);
     const [reload, setReload] = useState<boolean>(true);
     const [selected, setSelected] = useState<BookType>({
@@ -17,7 +18,8 @@ const Book = ({setStatus}: BookProps) => {
         title: null,
         genre: null,
         pub_year: null,
-        author_id: null
+        author_id: null,
+        username: null
     });
 
     useEffect(() => {
@@ -33,7 +35,8 @@ const Book = ({setStatus}: BookProps) => {
             pub_year: null,
             author_id: null,
             genre: null,
-            id: null
+            id: null,
+            username: null
         });
     }, [reload]);
     return (
@@ -73,6 +76,7 @@ const Book = ({setStatus}: BookProps) => {
                     reload={reload} 
                     setReload={setReload}
                     setStatus={setStatus}
+                    username={username}
                 />
             </Box>
 

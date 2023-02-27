@@ -23,7 +23,8 @@ const service = async (db: Database, reqParser: RequestParser, res: Response<Cus
         const author: Author = {
             id: row.id,
             name: row.name,
-            bio: row.bio
+            bio: row.bio,
+            username: row.username
         }
         response = {
             message: "success",

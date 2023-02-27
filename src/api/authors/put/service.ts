@@ -29,13 +29,13 @@ const service = async (db: Database, reqParser: RequestParser, res: Response<Cus
     const updateStr: string = update.join(",");
 
     // Parsing body into SQL statement
-    let result = await db.run(`UPDATE authors SET ${updateStr} WHERE id = '${reqParser.PathParam.authorId}';`);
+    let result = await db.run(`UPDATE authors SET ${updateStr} WHERE id = '${reqParser.PathParam.authorId}' AND username = '${reqParser.Body.username}';`);
 
     // Check if ID exists
     if (result.changes === 0) {
-        response.message = "data not exists";
-        response.statusCode = 404;
-        return res.status(404).json(response);
+        response.message = "unauthorized operation";
+        response.statusCode = 401;
+        return res.status(401).json(response);
     }
 
     response.message = "success";
